@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/js/necessary.js" defer></script>
+        <script src="/js/spaghetti.js" defer></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Spaghetti Incremental</title>
+    </head>
+    <body>
+        <h1>You have <text value="beautify(game.spaghetti)"></text> Spaghetti</h1>
+        <button class="tab" onclick="tab = 1">Spaghetti</button>
+        <button class="tab" onclick="tab = 2">Options</button>
+        <sec vif="tab === 1" id="spaghetti">
+            <button class="layerbutton" onclick="layer=1">Spaghetti [<text value="beautify(game.spaghetti)"></text>]</button>
+            <sec vif="layer === 1">
+                <button onclick="subtab[0] = 1">Spaghetti</button>
+                <button onclick="subtab[0] = 2">Generators</button>
+                <button onclick="subtab[0] = 3">Upgrades</button>
+                <sec vif="subtab[0] === 1">
+                    <img href="images/spaghettitransparent.png" onclick="clickforspaghetti()" alt="click here for spaghetti"/>
+                </sec>
+                <sec vif="subtab[0] === 2">
+                    <p>You have <text value="beautify(game.spaghettiworker)"></text> Workers</p>
+                    <button onclick="buyspaghettiworker()">
+                        Hire (bribe) a Worker for <text value="beautify(spaghettiworkercost())"></text> Spaghetti
+                    </button>
+                    <sec vif="game.spaghettiupgrade[0]">
+                        <p>You have <text value="beautify(game.spaghettifactory)"></text> Spaghetti Factories (x<text value="beautify((game.spaghettiupgrade[3] ? game.spaghettimanager : 1) * Math.sqrt(game.spaghettiworker))"></text>)</p>
+                        <button onclick="buyspaghettifactory()">
+                           Bribe local government to build a Spaghetti Factory for <text value="beautify(spaghettifactorycost())"></text> Spaghetti
+                        </button>
+                    </sec>
+                    <sec vif="game.spaghettiupgrade[1]">
+                        <p>You have <text value="beautify(game.spaghettimanager)"></text> Managers</p>
+                        <button onclick="buyspaghettimanager()">
+                           Hire (bribe) a Manager for <text value="beautify(spaghettimanagercost())"></text> Spaghetti
+                        </button>
+                    </sec>
+                </sec>
+                <sec vif="subtab[0] === 3">
+                    <sec vif="game.spaghettiupgradeunlock === 0">
+                        <p>You need 10 Workers for the first 4 Upgrades.</p>
+                    </sec>
+                    <sec vif="game.spaghettiupgradeunlock === 1">
+                        <p>You need 20 Managers for the next 4 Upgrades.</p>
+                    </sec>
+                    <sec vif="game.spaghettiupgradeunlock === 2">
+                        <p>You need 550 Factories for the last 2 Upgrades.</p>
+                    </sec>
+                    <sec vif="game.spaghettiupgradeunlock === 3">
+                        <p>You need e47.00 Spaghetti to win! Yippee!.</p>
+                    </sec>
+                    <sec vif="game.spaghettiupgradeunlock >= 1">
+                        <button class="upgrade" onclick="buyspaghettiupgrade(0)">
+                            Unlock factories to produce spaghetti, boosted by workers.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[0]"></text>
+                            <br>
+                            350 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(1)">
+                            Unlock managers. Also spaghetti click is boosted.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[1]"></text>
+                            <br>
+                            e4.00 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(2)">
+                            Spaghetti Factories and Managers cost scale better.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[2]"></text>
+                            <br>
+                            e5.00 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(3)">
+                            Managers boost Factories the same way Workers do.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[3]"></text>
+                            <br>
+                            e6.00 Spaghetti
+                        </button>
+                    </sec>
+                    <sec vif="game.spaghettiupgradeunlock >= 2">
+                        <button class="upgrade" onclick="buyspaghettiupgrade(4)">
+                            Spaghetti gain x3. Spaghetti click x3.
+                            <br>
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[4]"></text>
+                            <br>
+                            e8.00 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(5)">
+                            Square the production of spaghetti by Workers.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[5]"></text>
+                            <br>
+                            e9.00 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(6)">
+                            Spaghetti gain x9. Spaghetti click x3.
+                            <br>
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[6]"></text>
+                            <br>
+                            e11.11 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(7)">
+                            The Factory boost applies to Workers and Managers.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[7]"></text>
+                            <br>
+                            e13.00 Spaghetti
+                        </button>
+                    </sec>
+                    <sec vif="game.spaghettiupgradeunlock >= 2">
+                        <button class="upgrade" onclick="buyspaghettiupgrade(8)">
+                            Cost scale is decreased more. Automate buying too.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[8]"></text>
+                            <br>
+                            e38.00 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(9)">
+                            Cube the production of Spaghetti by Spaghetti Factories
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[9]"></text>
+                            <br>
+                            e42.00 Spaghetti
+                        </button>
+                    </sec>
+                </sec>
+            </sec>
+        </sec>
+        <sec vif="tab === 2">
+            <button onclick="reset()">Reset</button>
+        </sec>
+    </body>
+</html>
