@@ -4,31 +4,54 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="/js/necessary.js" defer></script>
+        <script src="/js/skip.js" defer></script>
+        <script src="/js/statistics.js" defer></script>
         <script src="/js/spaghetti.js" defer></script>
+        <script src="/js/solarspaghetti.js" defer></script>
+        <script src="/js/infinispaghetti.js" defer></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
         <link rel="stylesheet" href="/css/style.css" />
         <title>Spaghetti Incremental</title>
     </head>
     <body>
         <h1>You have <text value="beautify(game.spaghetti)"></text> Spaghetti</h1>
+        <h2>(+<text value="beautify(spaghettigain())"></text>)</h2>
         <button class="tab" onclick="tab = 1">Spaghetti</button>
         <button class="tab" onclick="tab = 2">Options</button>
-        <sec vif="tab === 1" id="spaghetti">
-            <button class="layerbutton" onclick="layer=1">Spaghetti [<text value="beautify(game.spaghetti)"></text>]</button>
-            <sec vif="layer === 1">
+        <button class="tab" onclick="tab = 3">Statistics</button>
+        <button class="tab" onclick="tab = 4">Achievements</button>
+        <button class="tab" onclick="tab = 5">Tips</button>
+        <button class="tab" onclick="tab = 6">Super Spaghetti</button>
+        <sec vif="tab === 1">
+            <sec id="spaghetti" vif="true">
+                <button class="layerbutton" onclick="layer=1">
+                    Spaghetti [<text value="beautify(game.spaghetti)"></text>]
+                </button>
+            </sec>
+            <sec vif="layer === 1" id="spaghetti">
                 <button onclick="subtab[0] = 1">Spaghetti</button>
                 <button onclick="subtab[0] = 2">Generators</button>
                 <button onclick="subtab[0] = 3">Upgrades</button>
-                <sec vif="subtab[0] === 1">
-                    <img href="images/spaghettitransparent.png" onclick="clickforspaghetti()" alt="click here for spaghetti"/>
+                <sec vif="game.nebula[0]" id="solarspaghetti">
+                    <button onclick="subtab[0] = 4">Advanced Upgrades</button>
+                </sec>
+                <sec vif="subtab[0] === 1" id="invisible">
+                    <button onclick="clickforspaghetti()">
+                        <img src="/images/spaghettitransparent.png" style="width:150px;" alt="click here for spaghetti">
+                    </button>
                 </sec>
                 <sec vif="subtab[0] === 2">
-                    <p>You have <text value="beautify(game.spaghettiworker)"></text> Workers</p>
+                    <p>
+                        You have <text value="beautify(game.spaghettiworker)"></text> Workers
+                        <sec vif="game.spaghettimanager >= 1">
+                            (+<text value="beautify(spaghettiworkergain())"></text>)
+                        </sec>
+                    </p>
                     <button onclick="buyspaghettiworker()">
                         Hire (bribe) a Worker for <text value="beautify(spaghettiworkercost())"></text> Spaghetti
                     </button>
                     <sec vif="game.spaghettiupgrade[0]">
-                        <p>You have <text value="beautify(game.spaghettifactory)"></text> Spaghetti Factories (x<text value="beautify((game.spaghettiupgrade[3] ? game.spaghettimanager : 1) * Math.sqrt(game.spaghettiworker))"></text>)</p>
+                        <p>You have <text value="beautify(game.spaghettifactory)"></text> Spaghetti Factories (x<text value="beautify(factoryboost())"></text>)</p>
                         <button onclick="buyspaghettifactory()">
                            Bribe local government to build a Spaghetti Factory for <text value="beautify(spaghettifactorycost())"></text> Spaghetti
                         </button>
@@ -48,10 +71,10 @@
                         <p>You need 20 Managers for the next 4 Upgrades.</p>
                     </sec>
                     <sec vif="game.spaghettiupgradeunlock === 2">
-                        <p>You need 550 Factories for the last 2 Upgrades.</p>
+                        <p>You need 550 Factories for the next 2 Upgrades.</p>
                     </sec>
                     <sec vif="game.spaghettiupgradeunlock === 3">
-                        <p>You need e47.00 Spaghetti to win! Yippee!.</p>
+                        <p>You need e47.00 Spaghetti for the last upgrade.</p>
                     </sec>
                     <sec vif="game.spaghettiupgradeunlock >= 1">
                         <button class="upgrade" onclick="buyspaghettiupgrade(0)">
@@ -85,7 +108,7 @@
                     </sec>
                     <sec vif="game.spaghettiupgradeunlock >= 2">
                         <button class="upgrade" onclick="buyspaghettiupgrade(4)">
-                            Spaghetti gain x3. Spaghetti click x3.
+                            Spaghetti gain x3. Spaghetti click x9.
                             <br>
                             <br>
                             Isbought: <text value="game.spaghettiupgrade[4]"></text>
@@ -124,18 +147,356 @@
                             e38.00 Spaghetti
                         </button>
                         <button class="upgrade" onclick="buyspaghettiupgrade(9)">
-                            Cube the production of Spaghetti by Spaghetti Factories
+                            Cube the production of Spaghetti by Spaghetti Factories.
                             <br>
                             Isbought: <text value="game.spaghettiupgrade[9]"></text>
                             <br>
                             e42.00 Spaghetti
                         </button>
                     </sec>
+                    <br>
+                    <sec vif="game.spaghettiupgradeunlock >= 4">
+                        <button class="upgrade" onclick="buyspaghettiupgrade(10)">
+                            Start the Spaghettification process.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[10]"></text>
+                            <br>
+                            e47.00 Spaghetti
+                        </button>
+                    </sec>
                 </sec>
+                <sec vif="subtab[0] === 4">
+                    <button class="upgrade" onclick="buyspaghettiupgrade(11)">
+                        Factories boost the Factory boost by a small amount.
+                        <br>
+                        Isbought: <text value="game.spaghettiupgrade[11]"></text>
+                        <br>
+                        e10.00 Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyspaghettiupgrade(12)">
+                        Spaghetti boosts fettuccine gain very slightly.
+                        <br>
+                        Isbought: <text value="game.spaghettiupgrade[12]"></text>
+                        <br>
+                        e50.00 Spaghetti
+                    </button>
+                    <sec vif="game.nebula[1]">
+                        <button class="upgrade" onclick="buyspaghettiupgrade(13)">
+                            Multiply Spaghetti gain by 3 only under e13.00 Spaghetti
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[13]"></text>
+                            <br>
+                            e11.11 Spaghetti
+                        </button>
+                        <button class="upgrade" onclick="buyspaghettiupgrade(14)">
+                            Triple production of managers only under e45.00 Spaghetti
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[14]"></text>
+                            <br>
+                            e35.00 Spaghetti
+                        </button>
+                    </sec>
+                    <sec vif="game.nebula[3]">
+                        <button class="upgrade" onclick="buyworkerupgrade()">
+                            Factories produce Managers because they are now clankers.
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[15]"></text>
+                            <br>
+                            e3.50 Workers
+                        </button>
+                    </sec>
+                </sec>
+            </sec>
+            <sec id="solarspaghetti" vif="game.layer >= 1">
+                <button class="layerbutton" onclick="layer=2">
+                    Solar Spaghetti [<text value="beautify(game.solarspaghetti)"></text>]
+                </button>
+            </sec>
+            <sec id="solarspaghetti"vif="layer === 2">
+                <button class="upgrade" onclick="solarspaghettireset()">
+                    Reset for <text value="beautify(solarspaghettigain())"></text> Solar Spaghetti.
+                    <br>
+                    <br>
+                    <sec vif="game.spaghetti > 1e49 && 1e66 > game.spaghetti">
+                        <text value="beautify(nextspaghetti(0))"></text> at <text value="beautify(nextspaghetti(1))"> Spaghetti</text>
+                    </sec>
+                    <br>
+                    This resets everything in the Spaghetti layer.
+                </button>
+                <br>
+                <button onclick="subtab[1] = 1">Planets</button>
+                <button onclick="subtab[1] = 2">Stars</button>
+                <button onclick="subtab[1] = 3">Nebulas</button>
+                <button onclick="subtab[1] = 4">Upgrades</button>
+                <sec vif="game.nebula[2]">
+                    <button onclick="subtab[1] = 5">Challenges</button>
+                </sec>
+                <sec vif="subtab[1] === 1">
+                    <button class="upgrade" onclick="buyplanet(0)">
+                        Mars
+                        <br>
+                        (Upgrade 5 and 7)
+                        <br>
+                        Isbought: <text value="game.planet[0]"></text>
+                        <br>
+                        3 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyplanet(1)">
+                        Neptune
+                        <br>
+                        (Upgrade 1 and 2)
+                        <br>
+                        Isbought: <text value="game.planet[1]"></text>
+                        <br>
+                        100 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyplanet(2)">
+                        Sedna
+                        <br>
+                        (Upgrade 9)
+                        <br>
+                        Isbought: <text value="game.planet[2]"></text>
+                        <br>
+                        200 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyplanet(3)">
+                        Planet X
+                        <br>
+                        (Upgrade 3 and 4)
+                        <br>
+                        Isbought: <text value="game.planet[3]"></text>
+                        <br>
+                        600 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyplanet(4)">
+                        Proxima Centauri B
+                        <br>
+                        (Upgrade 6)
+                        <br>
+                        Isbought: <text value="game.planet[4]"></text>
+                        <br>
+                        e4.95 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyplanet(5)">
+                        Awohali
+                        <br>
+                        (Keep all upgrades)
+                        <br>
+                        Isbought: <text value="game.planet[5]"></text>
+                        <br>
+                        e7.00 Solar Spaghetti
+                    </button>
+                </sec>
+                <sec vif="subtab[1] === 2">
+                    <h3>You have <text value="beautify(game.fettuccine)"></text> Fettuccine</h3>
+                    <p>(+<text value="beautify(fettuccinebasegain())"></text>)</p>
+                    <h4>This boosts spaghetti gain by <text value="beautify(fettuccineboost())"></text></h4>
+                    <sec vif="game.fettuccine > game.spaghetti">
+                        <p>Due to supply and demand, fettuccine being bigger than spaghetti, and a lack of storage space to put, your fettuccine is divided by 1.02 every tick.</p>
+                    </sec>
+                    <button class="upgrade" onclick="buysun(0)">
+                        Tau Ceti: <text value="game.sun[0]"></text>/<text value="starcap"></text>
+                        <br>
+                        <text value="beautify(suncost(0))"></text> Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buysun(1)">
+                        Polaris: <text value="game.sun[1]"></text>/<text value="starcap"></text>
+                        <br>
+                        <text value="beautify(suncost(1))"></text> Fettuccine
+                    </button>
+                    <button class="upgrade" onclick="buysun(2)">
+                        Arcturus: <text value="game.sun[2]"></text>/<text value="starcap"></text>
+                        <br>
+                        <text value="beautify(suncost(2))"></text> Fettuccine
+                    </button>
+                    <button class="upgrade" onclick="buysun(3)">
+                        Sirius B: <text value="game.sun[3]"></text>/<text value="starcap"></text>
+                        <br>
+                        <text value="beautify(suncost(3))"></text> Fettuccine
+                    </button>
+                    <sec vif="game.solarupgrade[4]">
+                        <button class="upgrade" onclick="buysun(4)">
+                            UY Scuti: <text value="game.sun[4]"></text>/<text value="starcap"></text>
+                            <br>
+                            <text value="beautify(suncost(4))"></text> Fettuccine
+                        </button>
+                    </sec>
+                </sec>
+                <sec vif="subtab[1] === 3">
+                    <button class="upgrade" onclick="buynebula(0)">
+                        Cat Eye Nebula (Unlock 2 upgrades)
+                        <br>
+                        Isbought: <text value="game.nebula[0]"></text>
+                        <br>
+                        10 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buynebula(1)">
+                        Orion Nebula (Unlock the last 2 upgrades)
+                        <br>
+                        Isbought: <text value="game.nebula[1]"></text>
+                        <br>
+                        300 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buynebula(2)">
+                        Crab Nebula (Unlock challenges)
+                        <br>
+                        Isbought: <text value="game.nebula[2]"></text>
+                        <br>
+                        e3.08 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buynebula(3)">
+                        Eagle Nebula (Unlock 1 last upgrade)
+                        <br>
+                        Isbought: <text value="game.nebula[3]"></text>
+                        <br>
+                        e9.00 Solar Spaghetti
+                    </button>
+                </sec>
+                <sec vif="subtab[1] === 4">
+                    <button class="upgrade" onclick="buysolarupgrade(0)">
+                        Spaghetti gain x3.
+                        <br>
+                        Spaghetti click /3.
+                        <br>
+                        Isbought: <text value="game.solarupgrade[0]"></text>
+                        <br>
+                        2 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buysolarupgrade(1)">
+                        Spaghetti gain x2
+                        <br>
+                        Fettuccine gain x2
+                        <br>
+                        Isbought: <text value="game.solarupgrade[1]"></text>
+                        <br>
+                        200 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buysolarupgrade(2)">
+                        Spaghetti click gain x2
+                        <br>
+                        Manager prod. x3
+                        <br>
+                        Isbought: <text value="game.solarupgrade[2]"></text>
+                        <br>
+                        600 Solar Spaghetti
+                    </button>
+                    <button class="upgrade" onclick="buysolarupgrade(3)">
+                        Solar Spaghetti boosts factory boost
+                        <br>
+                        Isbought: <text value="game.solarupgrade[3]"></text>
+                        <br>
+                        e5.50 Solar Spaghetti
+                    </button>
+                    <sec vif="game.challenge[0]">
+                        <button class="upgrade" onclick="buysolarupgrade(4)">
+                            Unlock another star
+                            <br>
+                            Fettuccine gain x2
+                            <br>
+                            Isbought: <text value="game.solarupgrade[4]"></text>
+                            <br>
+                            e13.00 Fettuccine
+                        </button>
+                        <button class="upgrade" onclick="buysolarupgrade(5)">
+                            Fettuccine gain boosts Solar Spaghetti gain.
+                            <br>
+                            Isbought: <text value="game.solarupgrade[5]"></text>
+                            <br>
+                            e21.50 Fettuccine
+                        </button>
+                        <button class="upgrade" onclick="buysolarupgrade(6)">
+                            Star cap increase
+                            <br>
+                            (50 → 100)
+                            <br>
+                            Isbought: <text value="game.solarupgrade[6]"></text>
+                            <br>
+                            e23.50 Fettuccine
+                        </button>
+                        <button class="upgrade" onclick="buysolarupgrade(7)">
+                            Gain Solar Spaghetti passively
+                            <br>
+                            Isbought: <text value="game.solarupgrade[7]"></text>
+                            <br>
+                            e70.50 Fettuccine
+                        </button>
+                    </sec>
+                </sec>
+                <sec vif="subtab[1] === 5">
+                    <sec vif="game.inchallenge === 0">
+                        <p>You're not in any challenge</p>
+                    </sec>
+                    <sec vif="game.inchallenge > 0">
+                        <p>You're in challenge <text value="game.inchallenge"></text></p>
+                    </sec>
+                    <button class="challenge" onclick="enterchallenge(1)">
+                        The factory boost is squared and it divides production. Click power x5.
+                        <br><br>
+                        Goal: e10.00 Spaghetti
+                        <br>
+                        Completed: <text value="game.challenge[0]"></text>
+                        <br><br>
+                        Reward: Unlock Fettuccine Upgrades under the Solar Upgrades
+                    </button>
+                    <button class="challenge" onclick="enterchallenge(2)">
+                        Your workers are on strike, so worker and manager production is 0.
+                        <br><br>
+                        Goal: e13.50 Spaghetti
+                        <br>
+                        Completed: <text value="game.challenge[1]"></text>
+                        <br><br>
+                        Reward: Current Solar Spaghetti boosts Spaghetti: (x<text value="(game.challenge[1] ? beautify(Math.log2(game.solarspaghetti + 1)) : '1 rn')"></text>)
+                    </button>
+                    <button class="challenge" onclick="enterchallenge(3)">
+                        Almost no upgrades and no factory boost. Autoleave when complete.
+                        <br><br>
+                        Goal: e15.00 Spaghetti
+                        <br>
+                        Completed: <text value="game.challenge[2]"></text>
+                        <br><br>
+                        Reward: Third presige layer: Infinispaghetti. However, you need 1e80 spaghetti to reset.
+                    </button>
+                </sec>
+            </sec>
+            <sec id="infinispaghetti" vif="game.layer >= 2">
+                <button class="layerbutton" onclick="layer=3">
+                    Infinispaghetti [<text value="beautify(game.infinispaghetti)"></text>]
+                </button>
+            </sec>
+            <sec vif="layer === 3" id="infinispaghetti">
+                <button class="upgrade" onclick="alert('Nah, just wait, be patient, mkay?')">
+                    Reset for <text value="beautify(infinispaghettigain())"></text> Infinispaghetti.
+                    <br>
+                    <br>
+                    This resets everything in the Solar Spaghetti layer.
+                </button>
+                <h1>YOU WIN!!!</h1>
             </sec>
         </sec>
         <sec vif="tab === 2">
+            <h2>Options</h2>
             <button onclick="reset()">Reset</button>
+            <button onclick="skipahead()">Skip</button>
+            <button onclick="doublespaghetti()">Double spaghetti</button>
+        </sec>
+        <sec vif="tab === 3">
+            <h2>Statistics</h2>
+            <p>
+                If you measured all your spaghetti in volume, assuming 1 Spaghetti is a 250mL serving, you'd have
+                <text value="beautify(game.spaghetti * 250)"></text>mL or enough to fill <text value="beautify(returnstatsinfo())"></text>
+            </p>
+        </sec>
+        <sec vif="tab === 4">
+            <h2>Achievements</h2>
+            <p>Coming soon...</p>
+        </sec>
+        <sec vif="tab === 5">
+            <h2>Tips</h2>
+            <p>Coming soon...</p>
+        </sec>
+        <sec vif="tab === 6">
+            <h2>Super Spaghetti</h2>
+            <p>Coming soon...</p>
         </sec>
     </body>
 </html>
