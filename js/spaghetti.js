@@ -4,16 +4,16 @@ function clickforspaghetti() {
     if (game.spaghettiupgrade[1]) {
         game.spaghetti += 1 + spaghettigain() * (game.spaghettiupgrade[4] ? 9 : 1) * (game.spaghettiupgrade[6] ? 3 : 1) * (game.solarupgrade[2] ? 2 : 1) * (game.inchallenge === 1 ? 5 : 1) / (game.solarupgrade[0] ? 3 : 1) / 10
     } else {
-        game.spaghetti += 1 * (game.spaghettiupgrade[4] ? 9 : 1) * (game.spaghettiupgrade[6] ? 3 : 1) * (game.solarupgrade[2] ? 2 : 1) * (game.challenge[1] ? Math.log2(game.solarspaghetti + 1) : 2) / (game.solarupgrade[0] ? 3 : 1);
+        game.spaghetti += 1 * (game.spaghettiupgrade[4] ? 9 : 1) * (game.spaghettiupgrade[6] ? 3 : 1) * (game.solarupgrade[2] ? 2 : 1) * (game.challenge[1] ? Math.log2(game.solarspaghetti + 2) : 1) / (game.solarupgrade[0] ? 3 : 1);
     }
 }
 
 function spaghettigain() {
-  return (((game.spaghettiworker * (game.inchallenge === 2 ? 0 : 1))**(game.spaghettiupgrade[5] ? 2 : 1) * (game.spaghettiupgrade[7] ? factoryboost() : 1)) + (10 * game.spaghettifactory * factoryboost())**(game.spaghettiupgrade[9] ? 3 : 1)) * (game.spaghettiupgrade[4] ? 3 : 1) * (game.spaghettiupgrade[6] ? 9 : 1) * (game.solarupgrade[0] ? 3 : 1) * (game.spaghetti < 1e13 && game.spaghettiupgrade[13] ? 3 : 1) * (game.solarupgrade[1] ? 2 : 1) * (game.challenge[1] ? Math.log2(game.solarspaghetti + 2) : 1) * (game.sun[0] >= 1 ? fettuccineboost() : 1);
+  return (((game.spaghettiworker * (game.inchallenge === 2 ? 0 : 1))**(game.spaghettiupgrade[5] ? 2 : 1) * (game.spaghettiupgrade[7] ? factoryboost() : 1)) + (10 * game.spaghettifactory * factoryboost())**(game.spaghettiupgrade[9] ? 3 : 1)) * (game.spaghettiupgrade[4] ? 3 : 1) * (game.spaghettiupgrade[6] ? 9 : 1) * (game.solarupgrade[0] ? 3 : 1) * (game.spaghetti < 1e13 && game.spaghettiupgrade[13] ? 3 : 1) * (game.solarupgrade[1] ? 2 : 1) * (game.challenge[1] ? Math.log2(game.solarspaghetti + 2) : 1) * (game.sun[0] >= 1 ? fettuccineboost() : 1) * coordinateboost(0) * (game.infiniupgrade[0] ? 2 : 1) * solarfettuccineboost() * (game.infinichallenge[2] ? Math.log10(game.solarresets + 10) : 1) * (game.chmilestone[1] ? 5 : 1) * (game.chmilestone[2] ? Math.cbrt(game.highestinfinispaghetti) : 1) * (game.infiniupgrade[7] ? 10 : 1) / (game.ininfinichallenge === 4 ? game.americans : 1);
 }
 
 function spaghettiworkergain() {
-    return game.spaghettimanager * (game.spaghettiupgrade[7] ? factoryboost() : 1) * (game.solarupgrade[2] ? 3 : 1) * (game.spaghetti < 1e45 && game.spaghettiupgrade[14] ? 3 : 1)
+    return game.spaghettimanager * (game.spaghettiupgrade[7] ? factoryboost() : 1) * (game.solarupgrade[2] ? 3 : 1) * (game.spaghetti < 1e45 && game.spaghettiupgrade[14] ? 3 : 1) * (game.ininfinichallenge === 1 ? 5 : 1) * (game.infinichallenge[0] ? 2 : 1) * solarfettuccineboost()
 }
 
 function spaghettiworkercost() {
@@ -73,13 +73,22 @@ function buyworkerupgrade() {
     }
 }
 
+function buyextraupgrade() {
+    if(game.spaghetti >= 1e280) {
+        if(!game.spaghettiupgrade[16]) {
+            game.spaghetti -= 1e280
+            game.spaghettiupgrade[16] = true;
+        }
+    }
+}
+
 function factoryboost() {
     if (game.inchallenge === 1) {
         return 1 / ((game.spaghettiupgrade[3] ? game.spaghettimanager : 1) * Math.sqrt(game.spaghettiworker) * (game.spaghettiupgrade[11] ? Math.log10(game.spaghettifactory + 10) : 1) ** 2 + 1);
     } else if (game.inchallenge === 3) {
         return 1;
     } else {
-        return (game.spaghettiupgrade[3] ? game.spaghettimanager : 1) * Math.sqrt(game.spaghettiworker) * (game.spaghettiupgrade[11] ? Math.log10(game.spaghettifactory + 10) : 1) * (game.solarupgrade[3] ? Math.cbrt(game.solarspaghetti + 1) : 1);
+        return (game.spaghettiupgrade[3] ? game.spaghettimanager : 1) * Math.sqrt(game.spaghettiworker) * (game.spaghettiupgrade[11] ? Math.log10(game.spaghettifactory + 10) : 1) * (game.solarupgrade[3] ? Math.cbrt(game.solarspaghetti + 1) : 1) * (game.ininfinichallenge === 4 ? 5 : 1);
     }
 }
 
@@ -98,12 +107,17 @@ setInterval(function() {
     if (game.spaghettiupgrade[8]) {
         buyspaghettiworker()
         buyspaghettifactory()
+        buyspaghettifactory()
+        buyspaghettifactory()
         buyspaghettimanager()
     }
     if (game.spaghettiupgrade[10] && game.layer < 1) {
         game.layer = 1;
     }
     if (game.spaghettiupgrade[15]) {
-        game.spaghettimanager += Math.log10(game.spaghettifactory + 10) / 100
+        game.spaghettimanager += Math.sqrt(game.spaghettifactory + 1) * solarfettuccineboost() * (game.infinichallenge[3] ? Math.log10(factoryboost() + 10) : 1) / 100
+    }
+    if (game.spaghetti > game.highestspaghetti) {
+        game.highestspaghetti = game.spaghetti
     }
 }, 10)

@@ -14,6 +14,10 @@
         <title>Spaghetti Incremental</title>
     </head>
     <body>
+        <sec vif="game.ininfinichallenge >= 4">
+            <p>You have <text value="beautify(game.americans)"></text> Americans, dividing production of Spaghetti by it's amount (Because they keep eating it)</p>
+            <button onclick="resetspaghettiwithoutgain()">Reset spaghetti layer without gaining anything</button>
+        </sec>
         <h1>You have <text value="beautify(game.spaghetti)"></text> Spaghetti</h1>
         <h2>(+<text value="beautify(spaghettigain())"></text>)</h2>
         <button class="tab" onclick="tab = 1">Spaghetti</button>
@@ -33,7 +37,10 @@
                 <button onclick="subtab[0] = 2">Generators</button>
                 <button onclick="subtab[0] = 3">Upgrades</button>
                 <sec vif="game.nebula[0]" id="solarspaghetti">
-                    <button onclick="subtab[0] = 4">Advanced Upgrades</button>
+                    <button onclick="subtab[0] = 4">Extra Upgrades</button>
+                </sec>
+                <sec vif="game.nebula[0]" id="infinispaghetti">
+                    <button onclick="subtab[0] = 5">Extra Extra Upgrades</button>
                 </sec>
                 <sec vif="subtab[0] === 1" id="invisible">
                     <button onclick="clickforspaghetti()">
@@ -206,6 +213,15 @@
                         </button>
                     </sec>
                 </sec>
+                <sec vif="subtab[0] === 5" id="infinispaghetti">
+                    <button class="upgrade" onclick="buyextraupgrade()">
+                            Lose nothing on solar spaghetti reset and infinispaghetti reset
+                            <br>
+                            Isbought: <text value="game.spaghettiupgrade[16]"></text>
+                            <br>
+                            e280.00 Spaghetti 
+                        </button>
+                </sec>
             </sec>
             <sec id="solarspaghetti" vif="game.layer >= 1">
                 <button class="layerbutton" onclick="layer=2">
@@ -319,6 +335,15 @@
                             UY Scuti: <text value="game.sun[4]"></text>/<text value="starcap"></text>
                             <br>
                             <text value="beautify(suncost(4))"></text> Fettuccine
+                        </button>
+                    </sec>
+                    <br>
+                    <br>
+                    <sec vif="game.infiniupgrade[2]" id="infinispaghetti">
+                        You have <text value="beautify(game.solarfettuccine)"></text> Solar Fettuccine, boosting Manager gain, Worker gain, Spaghetti gain, and Solar Spaghetti gain by <text value="beautify(solarfettuccineboost())"></text>x. These are kept on infinispaghetti resets
+                        <br>
+                        <button onclick="buysolarfettuccine()">
+                            Buy 1 for <text value="beautify(solarfettuccinecost())"></text> Fettuccine
                         </button>
                     </sec>
                 </sec>
@@ -445,7 +470,7 @@
                         <br>
                         Completed: <text value="game.challenge[1]"></text>
                         <br><br>
-                        Reward: Current Solar Spaghetti boosts Spaghetti: (x<text value="(game.challenge[1] ? beautify(Math.log2(game.solarspaghetti + 1)) : '1 rn')"></text>)
+                        Reward: Current Solar Spaghetti boosts Spaghetti: (x<text value="(game.challenge[1] ? beautify(Math.log2(game.solarspaghetti + 2)) : '1 rn')"></text>)
                     </button>
                     <button class="challenge" onclick="enterchallenge(3)">
                         Almost no upgrades and no factory boost. Autoleave when complete.
@@ -464,12 +489,298 @@
                 </button>
             </sec>
             <sec vif="layer === 3" id="infinispaghetti">
-                <button class="upgrade" onclick="alert('Nah, just wait, be patient, mkay?')">
-                    Reset for <text value="beautify(infinispaghettigain())"></text> Infinispaghetti.
+                <sec vif="game.challenge[2] && game.ininfinichallenge === 0">
+                    <button class="upgrade" onclick="infinispaghettireset()">
+                        Reset for <text value="beautify(infinispaghettigain())"></text> Infinispaghetti.
+                        <br>
+                        <br>
+                        This resets everything in the Solar Spaghetti layer.
+                    </button>
+                </sec>
+                <br>
+                <button onclick="subtab[2] = 1">Upgrades</button>
+                <button onclick="subtab[2] = 2">Automation</button>
+                <button onclick="subtab[2] = 3">Challenges</button>
+                <button onclick="subtab[2] = 4">Travel</button>
+                <sec vif="game.infinichallenge[1]">
+                    <button onclick="subtab[2] = 5">Ch. Milestones</button>
+                </sec>
+                <sec vif="subtab[2] === 1">
+                    <button class="upgrade" onclick="buyinfiniupgrade(0)">
+                        Double Solar Spaghetti and Spaghetti gain
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[0]"></text>
+                        <br>
+                        2 Infinispaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyinfiniupgrade(1)">
+                        Unlock the Y-axis. It also multiplies the X-axis
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[1]"></text>
+                        <br>
+                        15 Infinispaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyinfiniupgrade(2)">
+                        Unlock Solar Fettuccine (You need Infinichallenge 1)
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[2]"></text>
+                        <br>
+                        40 Infinispaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyinfiniupgrade(3)">
+                        Raise star cap to 108 (This is way better than it seems)
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[3]"></text>
+                        <br>
+                        256 Infinispaghetti
+                    </button>
                     <br>
+                    <button class="upgrade" onclick="buyinfiniupgrade(4)">
+                        Multiply z-axis by the X boost and the Y boost
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[4]"></text>
+                        <br>
+                        e4.00 Infinispaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyinfiniupgrade(5)">
+                        Increase star cap to 110 (Again, better than it looks)
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[5]"></text>
+                        <br>
+                        e4.60 Infinispaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyinfiniupgrade(6)">
+                        Z gain is multiplied by highest earned infinispaghetti
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[6]"></text>
+                        <br>
+                        e6.00 Infinispaghetti
+                    </button>
+                    <button class="upgrade" onclick="buyinfiniupgrade(7)">
+                        LAST UPGRADE!!!
+                        <br>
+                        Multiply spaghetti gain by 10
+                        <br>
+                        Isbought: <text value="game.infiniupgrade[7]"></text>
+                        <br>
+                        e7.00 Infinispaghetti
+                    </button>
+                </sec>
+                <sec vif="subtab[2] === 2">
+                    <p>You don't lose any infinispaghetti buying these. Also, the numbers go by the highest ever achieved infinispaghetti: <text value="beautify(game.highestinfinispaghetti)"></text></p>
+                    <p>Your infini-clickers are clicking the spaghetti <text value="beautify(game.infiniclickers ** 2)"></text> times per second</p>
+                    <p>Your infini-collapsers are buying stars when available <text value="beautify(game.autocollapsers ** 2)"></text> times per second</p>
+                    <sec vif="game.infinichallenge[4]">
+                        <p>Your infini-solarizers are solar resetting when available <text value="beautify(2 ** game.infinisolarizers)"></text> times per second</p>
+                    </sec>
                     <br>
-                    This resets everything in the Solar Spaghetti layer.
+                    <button onclick="buyinfiniautomator(0)">Buy an infini-clicker for <text value="beautify(infiniautomatorcost(0))"> Infinispaghetti</text></button>
+                    <button onclick="buyinfiniautomator(1)">Buy an infini-collapser for <text value="beautify(infiniautomatorcost(1))"> Infinispaghetti</text></button>
+                    <sec vif="game.infinichallenge[4]">
+                        <button onclick="buyinfiniautomator(2)">Buy an infini-collapser for <text value="beautify(infiniautomatorcost(2))"> Infinispaghetti</text></button>
+                    </sec>
+                </sec>
+                <sec vif="subtab[2] === 3">
+                    <h3>Each infinichallenge comes with a buff not listed in the description. Hover over it to see what it is. You keep said buff after beating the challenge</h3>
+                    <sec vif="game.ininfinichallenge === 0">
+                        <p>You're not in any infinichallenge</p>
+                    </sec>
+                    <sec vif="game.ininfinichallenge > 0">
+                        <p>You're in infinichallenge <text value="game.ininfinichallenge"></text></p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock === 0">
+                        <p>You need e100.00 Spaghetti to unlock infinichallenge #1</p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock === 1">
+                        <p>You need e120.00 Spaghetti to unlock infinichallenge #2</p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock === 2">
+                        
+                        <p>You need e140.00 Spaghetti to unlock infinichallenge #3</p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock === 3">
+                        <p>You need e166.00 Spaghetti to unlock infinichallenge #4</p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock === 4">
+                        <p>You need e220.00 Spaghetti to unlock infinichallenge #5</p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock === 5">
+                        <p>That's all of the infinichallenges</p>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock >= 1" class="hover-container">
+                        <button class="challenge" onclick="enterinfinichallenge(1)">
+                            You cannot buy nebulas, planets, or solar upgrades. All 3 Solar Challenges are completed.
+                            <br><br>
+                            Goal: e4.25 Solar Spaghetti
+                            <br>
+                            Completed: <text value="game.infinichallenge[0]"></text>
+                            <br><br>
+                            Reward: Raise star cap to 107
+                            <span class="tooltip-text">
+                                Manager production and Fettuccine gain is multiplied by 5
+                                <br>
+                                (Manager production will be just x2 instead once beaten)
+                            </span>
+                        </button>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock >= 2" class="hover-container">
+                        <button class="challenge" onclick="enterinfinichallenge(2)">
+                            Spaghetti and Solar Spaghetti is being divided by 1.024 and 1.005 per frame respectively. 
+                            <br><br>
+                            Goal: e19.00 Solar Spaghetti
+                            <br>
+                            Completed: <text value="game.infinichallenge[1]"></text>
+                            <br><br>
+                            Reward: Unlock challenge milestones.
+                            <span class="tooltip-text">
+                                Gain 10% of solar spaghetti reset gain per second
+                                <br>
+                                (Gain 10 solar spaghetti per second instead once beaten)
+                            </span>
+                        </button>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock >= 3" class="hover-container">
+                        <button class="challenge" onclick="enterinfinichallenge(3)">
+                            You're only allowed only 2 solar spaghetti resets before you're kicked out of the challenge.
+                            <br><br>
+                            Goal: e11.00 Solar Spaghetti
+                            <br>
+                            Completed: <text value="game.infinichallenge[2]"></text>
+                            <br><br>
+                            Reward: Fettuccine boosts Solar Spaghetti gain
+                            <span class="tooltip-text">
+                                You can't get Fettuccine upgrade 4.
+                                <br>
+                                (Boosts Spaghetti, Solar Spaghetti, and Infinispaghetti by log10(solarresets + 10) once beaten)
+                            </span>
+                        </button>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock >= 4" class="hover-container">
+                        <button class="challenge" onclick="enterinfinichallenge(4)">
+                            There is exponentially rising Americans that divides spaghetti gain.
+                            <br><br>
+                            Goal: e24.00 Solar Spaghetti
+                            <br>
+                            Completed: <text value="game.infinichallenge[3]"></text>
+                            <br><br>
+                            Reward: Unlock more challenge milestones
+                            <span class="tooltip-text">
+                                Factory boost is multiplied by 5.
+                                <br>
+                                (Factory boost will instead boost factory to manager production by a tiny amount once beaten)
+                            </span>
+                        </button>
+                    </sec>
+                    <sec vif="game.infinichallengeunlock >= 5" class="hover-container">
+                        <button class="challenge" onclick="enterinfinichallenge(5)">
+                            You're stuck in challenge 1. Also there's Americans again.
+                            <br><br>
+                            Goal: e12.50 Solar Spaghetti
+                            <br>
+                            Completed: <text value="game.infinichallenge[4]"></text>
+                            <br><br>
+                            Reward: Unlock infini-solarizers under automation
+                            <span class="tooltip-text">
+                                All 3 challenges will be completed. Planets still work in challenges and Awohali applies to upgrade 15.
+                                <br>
+                                (That AND solar upgrades once beaten)
+                            </span>
+                        </button>
+                    </sec>
+                </sec>
+                <sec vif="subtab[2] === 4">
+                    <h3>You're at (<text value="beautify(game.coordinates[0])"></text>, <text value="beautify(game.coordinates[1])"></text>, <text value="beautify(game.coordinates[2])"></text>) on the cartesian plane.</h3>
+                    <p>Your speed is multiplied by (<text value="beautify(infinitodistanceboost(0))"></text>, <text value="beautify(infinitodistanceboost(1))"></text>, <text value="beautify(infinitodistanceboost(2))"></text>)</p>
+                    <p>X multiplies spaghetti by <text value="beautify(coordinateboost(0))"></text></p>
+                    <p>Y multiplies solar spaghetti by <text value="beautify(coordinateboost(1))"></text></p>
+                    <p>Z multiplies infinispaghetti by <text value="beautify(coordinateboost(2))"></text></p>
+                    <button onclick="buycar(0)">Buy an X-Car for <text value="beautify(carcost(0))"></text>x</button><button onclick="buyrocket(0)">Buy an X-Rocket for <text value="beautify(rocketcost(0))"></text>x</button><button onclick="buylight(0)">Buy an X-Light for <text value="beautify(lightcost(0))"></text>x</button>
+                    <sec vif="game.infiniupgrade[1]">
+                        <button onclick="buycar(1)">Buy a Y-Car for <text value="beautify(carcost(1))"></text>y</button><button onclick="buyrocket(1)">Buy a Y-Rocket for <text value="beautify(rocketcost(1))"></text>y</button><button onclick="buylight(1)">Buy a Y-Light for <text value="beautify(lightcost(1))"></text>y</button>
+                    </sec>
+                    <sec vif="game.chmilestone[5]">
+                        <button onclick="buycar(2)">Buy a Z-Car for <text value="beautify(carcost(2))"></text>z</button><button onclick="buyrocket(2)">Buy a Z-Rocket for <text value="beautify(rocketcost(2))"></text>z</button><button onclick="buylight(2)">Buy a Z-Light for <text value="beautify(lightcost(2))"></text>z</button>
+                    </sec>
+                    <p>You have (<text value="beautify(game.infinicars[0])"></text>, <text value="beautify(game.infinicars[1])"></text>, <text value="beautify(game.infinicars[2])"></text>) cars</p>
+                    <p>You have (<text value="beautify(game.infinirockets[0])"></text>, <text value="beautify(game.infinirockets[1])"></text>, <text value="beautify(game.infinirockets[2])"></text>) rockets</p>
+                    <p>You have (<text value="beautify(game.infinilight[0])"></text>, <text value="beautify(game.infinilight[1])"></text>, <text value="beautify(game.infinilight[2])"></text>) light</p>
+                </sec>
+                <sec vif="subtab[2] === 5">
+                    <h2>Hover on the challenge to see each reward</h2>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="hover-container challenge">
+                                        <h3>Challenge 1: Get e16.00 spaghetti</h3>
+                                        <br>
+                                        <h3>Achieved: <text value="game.chmilestone[0]"></text></h3>
+                                        <span class="tooltip-text">The X-axis boosts fettuccine gain by a tiny amount</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <sec vif="game.infinichallenge[3]">
+                                        <div class="hover-container challenge">
+                                            <h3>Challenge 2: Get e37.00 spaghetti</h3>
+                                            <br>
+                                            <h3>Achieved: <text value="game.chmilestone[1]"></text></h3>
+                                            <span class="tooltip-text">Multiply spaghetti gain by 5</span>
+                                        </div>
+                                    </sec>
+                                </td>
+                                <td>
+                                    <sec vif="game.infinichallenge[3]">
+                                        <div class="hover-container challenge">
+                                            <h3>Infinichallenge 1: Get e12.00 solar spaghetti</h3>
+                                            <br>
+                                            <h3>Achieved: <text value="game.chmilestone[2]"></text></h3>
+                                            <span class="tooltip-text">Highest achieved infinispaghetti boosts Spaghetti and Solar Spaghetti</span>
+                                        </div>
+                                    </sec>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <sec vif="game.infinichallenge[3]">
+                                        <div class="hover-container challenge">
+                                            <h3>Challenge 2: Get e100.00 spaghetti</h3>
+                                            <br>
+                                            <h3>Achieved: <text value="game.chmilestone[3]"></text></h3>
+                                            <span class="tooltip-text">Permanently keep all planets and nebula on infinispaghetti reset</span>
+                                        </div>
+                                    </sec>
+                                </td>
+                                <td>
+                                    <sec vif="game.infinichallenge[3]">
+                                        <div class="hover-container challenge">
+                                            <h3>Infinichallenge 2: Get e47.00 solar spaghetti</h3>
+                                            <br>
+                                            <h3>Achieved: <text value="game.chmilestone[4]"></text></h3>
+                                            <span class="tooltip-text">Infini-collapsers can buy Tau Ceti now. Also, gain 100 solar spaghetti per second.</span>
+                                        </div>
+                                    </sec>
+                                </td>
+                                <td>
+                                    <sec vif="game.infinichallenge[3]">
+                                        <div class="hover-container challenge">
+                                            <h3>Infinichallenge 3: Get e32.00 solar spaghetti</h3>
+                                            <br>
+                                            <h3>Achieved: <text value="game.chmilestone[5]"></text></h3>
+                                            <span class="tooltip-text">Unlock the Z-axis</span>
+                                        </div>
+                                    </sec>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </sec>
+            </sec>
+            <sec id="eternispaghetti" vif="game.layer >= 3">
+                <button class="layerbutton" onclick="layer=4">
+                    Eternispaghetti [<text value="beautify(game.eternispaghetti)"></text>]
                 </button>
+            </sec>
+            <sec vif="layer === 4" id="eternispaghetti">
                 <h1>YOU WIN!!!</h1>
             </sec>
         </sec>
@@ -480,15 +791,759 @@
             <button onclick="doublespaghetti()">Double spaghetti</button>
         </sec>
         <sec vif="tab === 3">
-            <h2>Statistics</h2>
+            <h2>Spaghetti</h2>
             <p>
                 If you measured all your spaghetti in volume, assuming 1 Spaghetti is a 250mL serving, you'd have
-                <text value="beautify(game.spaghetti * 250)"></text>mL or enough to fill <text value="beautify(returnstatsinfo())"></text>
+                <text value="beautify(game.spaghetti * 250)"></text>mL or enough to fill <text value="returnstatsinfo()"></text>
             </p>
+            <p>Your highest ever achieved spaghetti is <text value="beautify(game.highestspaghetti)"></text></p>
+            <p>You currently have <text value="beautify(game.spaghetti)"></text> spaghetti</p>
+            <br>
+            <h2>Solar Spaghetti</h2>
+            <p>Your highest ever achieved solar spaghetti is <text value="beautify(game.highestsolarspaghetti)"></text></p>
+            <p>You currently have <text value="beautify(game.solarspaghetti)"></text> solar spaghetti</p>
+            <p>You resetted <text value="beautify(game.solarresets)"></text> times this Infinireset</p>
+            <br>
+            <h2>Infinispaghetti</h2>
+            <p>Your highest ever achieved infinispaghetti is <text value="beautify(game.highestinfinispaghetti)"></text></p>
+            <p>You currently have <text value="beautify(game.infinispaghetti)"></text> infinispaghetti</p>
         </sec>
         <sec vif="tab === 4">
             <h2>Achievements</h2>
-            <p>Coming soon...</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get your first spaghetti</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get your first worker</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get your first factory</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get your first manager</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get your first upgrade</span>
+                            </div>
+                        </td>
+                        <sec vif="game.layer >= 1">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Reset for solar spaghetti for the first time</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get mars</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get your first solar upgrade</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get your first fettuccine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Beat challenge 1</span>
+                                </div>
+                            </td>
+                        </sec>
+                        <sec vif="game.layer >= 2">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Reset for infinispaghetti for the first time</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 10x</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 10y</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 10z</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get challenge milestone 1</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get infiniupgrade 1</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Solar reset 100 times</span>
+                                </div>
+                            </td>
+                        </sec>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Gain e6.00 spaghetti</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get 10 workers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get 10 factories</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get 10 managers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get upgrade 4</span>
+                            </div>
+                        </td>
+                        <sec vif="game.layer >= 1">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 300 solar spaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get neptune</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get your second solar upgrade</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e3.00 fettuccine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Beat challenge 2</span>
+                                </div>
+                            </td>
+                        </sec>
+                        <sec vif="game.layer >= 2">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 10 infinispaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e3.00x</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e3.00y</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e3.00z</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get challenge milestone 2</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get infiniupgrade 2</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Solar reset 250 times</span>
+                                </div>
+                            </td>
+                        </sec>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Gain e13.00 spaghetti</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e3.00 worker</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get 100 factories</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get 100 managers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get upgrade 8</span>
+                            </div>
+                        </td>
+                        <sec vif="game.layer >= 1">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e3.00 Solar Spaghetti.</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get sedna</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get the crab nebula</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e8.00 fettuccine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Beat challenge 3</span>
+                                </div>
+                            </td>
+                        </sec>
+                        <sec vif="game.layer >= 2">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 100 infinispaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e5.00x</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e5.00y</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e5.00z</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get challenge milestone 4</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get infiniupgrade 3</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e3.00 solar resets</span>
+                                </div>
+                            </td>
+                        </sec>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Gain e42.00 spaghetti</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e8.00 workers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e3.00 factories</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e3.00 managers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get upgrade 11</span>
+                            </div>
+                        </td>
+                        <sec vif="game.layer >= 1">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e5.00 solar spaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get planet X</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get solar upgrade 4</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e13.50 fettuccine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Beat infinichallenge 1</span>
+                                </div>
+                            </td>
+                        </sec>
+                        <sec vif="game.layer >= 2">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get 1000 infinispaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e8.00x</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e8.00y</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e8.00z</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get challenge milestone 3</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get infiniupgrade 4</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e4.00 solar resets</span>
+                                </div>
+                            </td>
+                        </sec>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Gain e60.00 spaghetti</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e13.00 workers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e4.00 factories</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e4.00 managers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get upgrade 15</span>
+                            </div>
+                        </td>
+                        <sec vif="game.layer >= 1">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e7.00 solar spaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get proxima centauri b</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get solar upgrade 7</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e23.50 fettuccine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Beat infinichallenge 2</span>
+                                </div>
+                            </td>
+                        </sec>
+                        <sec vif="game.layer >= 2">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e4.00 infinispaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e13.00x</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e13.00y</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e13.00z</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get challenge milestone 5</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Not yet</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e5.00 solar resets</span>
+                                </div>
+                            </td>
+                        </sec>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Gain e80.00 spaghetti</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e25.00 workers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e5.00 factories</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get e5.00 managers</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="hover-container achievement">
+                                <span class="tooltip-text">Get upgrade 16</span>
+                            </div>
+                        </td>
+                        <sec vif="game.layer >= 1">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e10.00 solar spaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get awohali</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get solar upgrade 8</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e70.50 fettuccine</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Beat infinichallenge 3</span>
+                                </div>
+                            </td>
+                        </sec>
+                        <sec vif="game.layer >= 2">
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e6.00 infinispaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e21.00x</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e21.00y</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e21.00z</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get challenge milestone 6</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Not yet</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e6.00 solar resets</span>
+                                </div>
+                            </td>
+                        </sec>
+                    </tr>
+                    <sec vif="game.layer >= 2">
+                        <tr>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Gain e140.00 spaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e50.00 workers</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e6.00 factories</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e6.50 managers</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Permanently keep all 16 upgrades on solar spaghetti reset</span>
+                                </div>
+                            </td>
+                            <sec vif="game.layer >= 1">
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e25.00 solar spaghetti</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Permanently keep all 6 planets on infinispaghetti reset</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Permanently keep all 8 solar upgrades on infinispaghetti reset</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e80.00 fettuccine</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Beat infinichallenge 4</span>
+                                    </div>
+                                </td>
+                            </sec>
+                            <sec vif="game.layer >= 2">
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e34.00x</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e34.00y</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e34.00z</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                            </sec>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Gain e240.00 spaghetti</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e80.00 workers</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e7.00 factories</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get e8.00 managers</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hover-container achievement">
+                                    <span class="tooltip-text">Get upgrade 17</span>
+                                </div>
+                            </td>
+                            <sec vif="game.layer >= 1">
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e60.00 solar spaghetti</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e84.00 fettuccine</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Beat infinichallenge 5</span>
+                                    </div>
+                                </td>
+                            </sec>
+                            <sec vif="game.layer >= 2">
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e55.00x</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e55.00y</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Get e55.00z</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hover-container achievement">
+                                        <span class="tooltip-text">Not yet</span>
+                                    </div>
+                                </td>
+                            </sec>
+                        </tr>
+                    </sec>
+                </tbody>
+            </table>
         </sec>
         <sec vif="tab === 5">
             <h2>Tips</h2>

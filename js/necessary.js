@@ -1,15 +1,16 @@
 var tab = 0
 var layer = 0
-var subtab = [0, 0]
+var subtab = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const ssbuyablecosts = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
 
 const newGame = {
   //Misc:
+  achievements: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
   superspaghetti: 0, //Can't be gained offline
   ssbuyables: [
     0, //Upgrade offline time capacity [300 → 600 → 1200 → 2400 → 3600 → 7200 → 14400 → 43200 → 86400 → infinity]
     0, //Global speed [/100 → /80 → /65 → /55 → /50]
-    0, //Super Spaghetti gain [0.0015/s → 0.002/s → 0.003/s → 0.004/s → 0.006/s → 0.008/s → 0.01/s]
+    0, //Super Spaghetti gain [0.15/s → 0.2/s → 0.3/s → 0.4/s → 0.6/s → 0.8/s → 1/s]
     0, //Spaghetti gain [x1 → x1.1 → x1.3 → x1.7 → x2]
     0, //Spaghetti click gain [x1 → x1.5]
     0, //Spaghetti worker production [x1 → x1.5]
@@ -17,11 +18,13 @@ const newGame = {
     0, //Spaghetti manager production [x1 → x1.5]
     0, //Solar Spaghetti gain [x1 → x1.2 → x1.4 → x1.6 → x1.8 → x2]
     0, //Fettuccine gain [x1 → x2 → x5 → x10]
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    0, //Infinispaghetti gain [x1 → x1.2 → x1.4 → x1.6 → x1.8 → x2]
+    0, 0, 0, 0, 0, 0, 0, 0, 0],
     layer: 0,
 
   //Spaghetti:
   spaghetti: 0,
+  highestspaghetti: 1,
   spaghettiworker: 0,
   spaghettimanager: 0,
   spaghettifactory: 0,
@@ -30,6 +33,7 @@ const newGame = {
 
   //Solar Spaghetti
   solarspaghetti: 0,
+  highestsolarspaghetti: 0,
   firstsolarreset: false,
   planet: [false, false, false, false, false, false],
   sun: [0, 0, 0, 0, 0],
@@ -38,10 +42,30 @@ const newGame = {
   solarupgrade: [false, false, false, false, false, false, false, false],
   challenge: [false, false, false],
   inchallenge: 0,
+  solarfettuccine: 0,
+  solarresets: 0,
 
   //Infinispaghetti
   infinispaghetti: 0,
+  highestinfinispaghetti: 0,
   firstinfinitereset: false,
+  infiniupgrade: [false, false, false, false, false, false, false, false],
+  infiniclickers: 0, //Clicks spaghetti automatically
+  autocollapsers: 0, //Creates stars automatically
+  infinisolarizers: 0,
+  infinichallenge: [false, false, false, false, false],
+  ininfinichallenge: 0,
+  infinichallengeunlock: 0,
+  coordinates: [0, 0, 0],
+  infinicars: [0, 0, 0],
+  infinirockets: [0, 0, 0],
+  infinilight: [0, 0, 0],
+  chmilestone: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+  americans: 1,
+  upgrade17unlock: false,
+
+  //Eternispaghetti
+  eternispaghetti: 0,
 };
   
   const game = {};

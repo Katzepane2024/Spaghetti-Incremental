@@ -1,6 +1,5 @@
 function skipahead() {
-    game.spaghetti = 1e48
-    game.solarspaghetti = 6e5
+    game.challenge[2] = true
 }
 
 function doublespaghetti() {
